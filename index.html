@@ -1,0 +1,66 @@
+<!doctype html>
+<html xml:lang="es-ES" lang="es-ES">
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="Cache-control" content="no-cache" />
+		<meta http-equiv="x-ua-compatible" content="ie=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>Prime ejemplo REACT</title>
+	</head>
+	<body>
+		<div id="raiz" />
+		
+		<script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+		<script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+
+		<script>
+            const root = ReactDOM.createRoot(document.getElementById('raiz'));
+
+            const arrayRecetas = [];
+            var select;
+
+            const lista = React.createElement("ul", null, arrayRecetas.map((nombre, index) => {
+                return React.createElement("li", { key: index }, nombre)
+            }))
+
+            const renderLista = (array) => {
+                const lista = React.createElement("select", { name: 'recetaactual'}, array.map((nombre, index) => {
+                    return React.createElement("option", { key: index, value: nombre }, nombre)
+                }));
+                const ingrediente = React.createElement('div', null, [
+                    'Ingrediente: ',
+                    React.createElement('input', { type: 'text', name: 'ingrediente' })
+                ]);
+
+                root.render([form, lista, ingrediente]);
+            }
+
+            const form = React.createElement('form', null, [
+                React.createElement('div', null, [
+                    'Nombre de la receta: ',
+                    React.createElement('input', { type: 'text', name: 'receta', id: 'receta' })
+                ]),
+                React.createElement('div', null, [
+                    'Tiempo de preparación (min): ',
+                    React.createElement('input', { type: 'text', name: 'tiempo', id: 'tiempo' })
+                ]),
+                React.createElement('button', { type: 'button' , onClick: (event) => {
+                    let r = document.getElementById('receta');
+                    let t = document.getElementById('tiempo');
+                    arrayRecetas.push(
+                        React.createElement('option', { value: r.value}, r.value + ' (' + t.value + ' min)')
+                    );
+                    r.value = '';
+                    t.value = '';
+                    r.focus();
+                    renderLista(arrayRecetas);
+                }}, 'Agregar receta'),
+                React.createElement('hr', null, null)                
+            ]);
+
+            root.render([form, lista]);
+            
+            
+		</script>
+	</body>
+</html>
